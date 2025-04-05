@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
  * @param initialState - Initial state value
  * @returns Tuple containing state value and setState function with callback support
  */
-export const useStateWithCallback = <T>(
+export function useStateWithCallback<T>(
   initialState: T,
 ): [
   state: T,
@@ -13,7 +13,7 @@ export const useStateWithCallback = <T>(
     updatedState: React.SetStateAction<T>,
     callback?: (updatedState: T) => void,
   ) => void,
-] => {
+] {
   const [state, setState] = useState<T>(initialState);
   const callbackRef = useRef<((updated: T) => void) | undefined>(undefined);
 
@@ -33,4 +33,4 @@ export const useStateWithCallback = <T>(
   }, [state]);
 
   return [state, handleSetState];
-};
+}

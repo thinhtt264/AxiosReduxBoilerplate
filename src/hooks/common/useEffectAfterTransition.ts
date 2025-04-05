@@ -7,10 +7,10 @@ import type { EventMapCore } from '@react-navigation/native';
  * @param expensiveTask - The task to run after navigation animation completes
  * @param deps - Dependencies array for useEffect
  */
-export const useEffectAfterTransition = (
+export function useEffectAfterTransition(
   expensiveTask: () => void,
   deps: unknown[],
-): void => {
+): void {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -29,4 +29,4 @@ export const useEffectAfterTransition = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-};
+}

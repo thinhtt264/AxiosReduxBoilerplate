@@ -5,7 +5,7 @@ import { AppState, AppStateStatus } from 'react-native';
  * Hook to listen to app state changes
  * @returns Current app state
  */
-export const useAppState = (): AppStateStatus => {
+export function useAppState(): AppStateStatus {
   const [appState, setAppState] = useState<AppStateStatus>('active');
 
   useEffect(() => {
@@ -19,4 +19,4 @@ export const useAppState = (): AppStateStatus => {
   }, []);
 
   return appState;
-};
+}
