@@ -1,0 +1,12 @@
+# Ignore metro.config.js
+metro.config.js
+
+# Ignore build directories
+/build
+/dist
+
+# Ignore node_modules
+node_modules/
+
+# Ignore coverage directory
+/coverage 
