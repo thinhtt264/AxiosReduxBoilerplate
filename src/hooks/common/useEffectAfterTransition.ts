@@ -5,28 +5,26 @@ import type { EventMapCore } from '@react-navigation/native';
 /**
  * Hook to run a task after navigation animation ends
  * @param expensiveTask - The task to run after navigation animation completes
- * @param deps - Dependencies array for useEffect
  */
-export function useEffectAfterTransition(
-  expensiveTask: () => void,
-  deps: unknown[],
-): void {
+export function useEffectAfterTransition(expensiveTask: () => void): void {
   const navigation = useNavigation();
 
   useEffect(() => {
+    let cleanupTask: () => void;
     const unsubscribe = navigation.addListener(
       'transitionEnd' as keyof EventMapCore<never>,
       () => {
-        setTimeout(() => {
-          //-> Mark this in macro task to avoid blocking the main thread
-          expensiveTask();
-        }, 0);
+        const task = expensiveTask();
+        unsubscribe?.(); // execute 1 time after transitionEnd
+        if (typeof task === 'function') {
+          cleanupTask = task;
+        }
       },
     );
-
     return () => {
-      unsubscribe();
+      cleanupTask?.();
+      unsubscribe?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
+  }, []);
 }
